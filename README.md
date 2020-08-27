@@ -46,7 +46,7 @@ Server.ServerEventCallback serverEventCallback = new Server.ServerEventCallback(
 
  @Override
  public void OnClientConnection(Client client) {
-	System.out.println("Bonded with client "+client.ID);
+  System.out.println("Bonded with client "+client.ID);
  }
 
  @Override
