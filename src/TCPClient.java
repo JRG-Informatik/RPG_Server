@@ -31,7 +31,7 @@ public class TCPClient {
 		receivedData = new Packet();
 		receiveBuffer = new byte[receiveBufferSize];
 		
-		System.out.println("Incomimg connection: "+socket.getInetAddress().getAddress());
+		System.out.println("Incomimg connection: "+socket.getInetAddress().getCanonicalHostName());
 		
 		connected = true;
 		new Thread() {
@@ -53,13 +53,11 @@ public class TCPClient {
 	
 	public void ReadData() {
 		try {
-			int _byteLength = stream.available();
-			if(_byteLength<=0) {
-				Disconnect();
-				return;
-			}
+			byte[] _longdata = new byte[receiveBufferSize];
+			int _byteLength = stream.read(_longdata);
 			byte[] _data = new byte[_byteLength];
-			System.arraycopy(receiveBuffer, 0, _data, 0,_byteLength);
+			System.arraycopy(_longdata, 0, _data, 0, _byteLength);
+			System.arraycopy(_data, 0, receiveBuffer, 0, _byteLength);
 			receivedData.Reset(HandleData(_data));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,7 +87,7 @@ public class TCPClient {
 	                    //client.server.packetHandlers.get(_packetId).callback(ID, _packet);
 	                    client.server.getServerEventCallback().OnReceiveTCPPacket(client.tcp, _packet);
 	                    // Call appropriate method to handle the packet
-	                } catch (Exception e) {}
+	                } catch (Exception e) {e.printStackTrace();}
             	}
             });
 
@@ -115,10 +113,12 @@ public class TCPClient {
 		try{
             if (socket != null){
             	socket.getOutputStream().write(_packet.ToArray(), 0, _packet.Length());
+            	socket.getOutputStream().flush();
             	client.server.getServerEventCallback().OnDispatchTCPPacket(this, _packet);
             }
         } catch (Exception e) {
-            System.out.println("Error sending data to player via TCP: "+e.toString());
+            System.out.println("Error sending data to player via TCP:");
+            e.printStackTrace();
         }
 	}
 	

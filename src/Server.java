@@ -65,7 +65,7 @@ public class Server {
 	public void Listen(int port) throws Exception {Listen(null, port);}
 	public void Listen(String serverIp, int port) throws Exception {
 		if(serverIp == null || serverIp.isEmpty()) server = new ServerSocket(0,1,InetAddress.getByName(serverIp));
-		else server = new ServerSocket(port,1,InetAddress.getLocalHost()); 
+		else server = new ServerSocket(port, 1, null); 
 		
 		//listens to new connection on second thread;
 		listen=true;
