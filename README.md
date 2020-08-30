@@ -1,6 +1,6 @@
 # RPG_Server
 A simple TCP and UDP Server
-## Visit the [**`Docs`**](https://github.com/JRG-Informatik/RPG_Server/wiki/TCPClient)!
+## Visit the [**`Docs`**](https://github.com/JRG-Informatik/RPG_Server/wiki)!
 
 # Basic setup
 ## `Initialize` a new Server:
